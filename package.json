@@ -1,0 +1,61 @@
+{
+  "name": "my-app",
+  "version": "0.4.0",
+  "private": true,
+  "dependencies": {
+    "@amcharts/amcharts4": "^4.9.13",
+    "@amcharts/amcharts4-geodata": "^4.1.14",
+    "@material-ui/core": "^4.9.9",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^25.2.1",
+    "@types/moment-timezone": "^0.5.13",
+    "@types/node": "^13.11.0",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-router-dom": "^5.1.4",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "create-react-app": "^3.4.1",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.28",
+    "react": "^16.13.1",
+    "react-device-detect": "^1.11.14",
+    "react-dom": "^16.13.1",
+    "react-number-format": "^4.4.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "docker:prod:build": "docker build -f support/prod/Dockerfile . -t covid19analytics/ui:$npm_package_version",
+    "docker:login": "docker login expodockerregistry.tf-net.tribalfusion.com",
+    "docker:push": "./support/common/dockerPush.sh -r covid19analytics/ui -v $npm_package_version",
+    "dev": "yarn start",
+    "server": "node server.js",
+    "start": "react-scripts start",
+    "secure-start": "HTTPS=true react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "https://api.covid19india.org"
+}
