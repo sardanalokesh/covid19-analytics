@@ -32,7 +32,6 @@
   },
   "scripts": {
     "docker:prod:build": "docker build -f support/prod/Dockerfile . -t covid19analytics/ui:$npm_package_version",
-    "docker:login": "docker login expodockerregistry.tf-net.tribalfusion.com",
     "docker:push": "./support/common/dockerPush.sh -r covid19analytics/ui -v $npm_package_version",
     "dev": "yarn start",
     "server": "node server.js",
