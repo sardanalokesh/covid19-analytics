@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         link: {
             color: "#F38400"
+        },
+        timestamp: {
+            height: 20,
+            marginBottom: 10
         }
     })
 );
@@ -22,17 +26,21 @@ const useStyles = makeStyles((theme: Theme) =>
 export function Credits() {
     const classes = useStyles();
     return (
-        <Grid container spacing={3}>
-            <Grid item md={12} xs={12}>
-                <Paper className={classes.paper}>
-                    <Typography variant="h6" className={classes.text}>
-                        Data Source: <Link className={classes.link} href="https://api.covid19india.org/" target="_blank">COVID19INDIA.ORG</Link>
-                    </Typography>
-                    <Typography variant="h6" className={classes.text}>
-                        Crafted by <Link className={classes.link} href="https://twitter.com/sardanalokesh" target="_blank">@sardanalokesh</Link>
-                    </Typography>
-                </Paper>
+        <>
+            <Typography variant="h6" className={classes.timestamp}>
+            </Typography>
+            <Grid container spacing={3}>
+                <Grid item md={12} xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h6" className={classes.text}>
+                            Data Source: <Link className={classes.link} href="https://api.covid19india.org/" target="_blank">COVID19INDIA.ORG</Link>
+                        </Typography>
+                        <Typography variant="h6" className={classes.text}>
+                            Crafted by <Link className={classes.link} href="https://twitter.com/sardanalokesh" target="_blank">@sardanalokesh</Link>
+                        </Typography>
+                    </Paper>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     );
 }
