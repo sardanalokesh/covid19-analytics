@@ -52,9 +52,9 @@ export function StateWiseReport({ data, total, name, color, loading, lastUpdated
                         <NumberFormat value={total} displayType="text" thousandSeparator={true} />
                     </span>
                 </Typography>
-                <Typography variant="h6" className={classes.timestamp}>
+                {/* <Typography variant="h6" className={classes.timestamp}>
                     { lastUpdated }
-                </Typography>
+                </Typography> */}
             </div>
             <Chloropeth data={data} name={name} color={color} />
             <Loader loading={loading} />

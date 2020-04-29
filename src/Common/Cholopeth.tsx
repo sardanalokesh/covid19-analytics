@@ -51,6 +51,9 @@ export function Chloropeth({ name, color, data }: Props) {
         chart.zoomControl = new am4maps.ZoomControl();
         chart.chartContainer.wheelable = false;
 
+        // touch handling
+        chart.tapToActivate = true;
+
         // Create map polygon series
         let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
 

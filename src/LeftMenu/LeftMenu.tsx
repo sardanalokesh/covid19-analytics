@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
         paper: {
             backgroundColor: theme.palette.secondary.main,
             border: '1px solid #707070',
-            marginTop: 90,
+            marginTop: 120,
             width: 210,
             borderRadius: 5
         },

@@ -7,6 +7,7 @@ import { Today } from './Content/Today';
 import Header from './Header/Header';
 import LeftMenu from './LeftMenu/LeftMenu';
 import { Credits } from './Content/Credits';
+import { isMobile } from 'react-device-detect';
 /* import {isMobile} from 'react-device-detect'; */
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
     }
   });
 
-  const [leftMenuOpen, setLeftMenuOpen] = useState(true);
+  const [leftMenuOpen, setLeftMenuOpen] = useState(!isMobile);
 
   const menuClickHandler = () => {
     setLeftMenuOpen(!leftMenuOpen);
