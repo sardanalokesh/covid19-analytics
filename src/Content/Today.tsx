@@ -1,4 +1,4 @@
-import { createStyles, Grid, makeStyles, Paper, Theme } from "@material-ui/core";
+import { createStyles, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { StateWiseReport } from "./StateWiseCases";
 import { ChloropethData } from "../Common/Cholopeth";
@@ -13,6 +13,15 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.secondary.main,
             borderRadius: 5,
             position: 'relative'
+        },
+        timestamp: {
+            fontSize: 14,
+            textAlign: 'right',
+            alignSelf: 'flex-end',
+            marginBottom: 10,
+            [theme.breakpoints.down('md')]: {
+                fontSize: 10
+            }
         }
     })
 );
@@ -69,43 +78,48 @@ export function Today() {
     }, []);
     
     return (
-        <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-                <Paper className={classes.paper}>
-                    <StateWiseReport
-                        data={confirmedCases}
-                        total={totalConfirmedCases}
-                        name="Confirmed Cases"
-                        color="#F38400"
-                        loading={loading}
-                        lastUpdated={lastUpdated}
-                    />
-                </Paper>
+        <>
+            <Typography variant="h6" className={classes.timestamp}>
+                Last Updated: {lastUpdated}
+            </Typography>
+            <Grid container spacing={3}>
+                <Grid item md={6} xs={12}>
+                    <Paper className={classes.paper}>
+                        <StateWiseReport
+                            data={confirmedCases}
+                            total={totalConfirmedCases}
+                            name="Confirmed Cases"
+                            color="#F38400"
+                            loading={loading}
+                            lastUpdated={lastUpdated}
+                        />
+                    </Paper>
+                </Grid>
+                <Grid item md={6} xs={12}>
+                    <Paper className={classes.paper}>
+                        <StateWiseReport
+                            data={recovered}
+                            total={totalRecovered}
+                            name="Recovered"
+                            color="#008856"
+                            loading={loading}
+                            lastUpdated={lastUpdated}
+                        />
+                    </Paper>
+                </Grid>
+                <Grid item md={6} xs={12}>
+                    <Paper className={classes.paper}>
+                        <StateWiseReport
+                            data={deaths}
+                            total={totalDeaths}
+                            name="Deaths"
+                            color="#ED7B84"
+                            loading={loading}
+                            lastUpdated={lastUpdated}
+                        />
+                    </Paper>
+                </Grid>
             </Grid>
-            <Grid item md={6} xs={12}>
-                <Paper className={classes.paper}>
-                    <StateWiseReport
-                        data={recovered}
-                        total={totalRecovered}
-                        name="Recovered"
-                        color="#008856"
-                        loading={loading}
-                        lastUpdated={lastUpdated}
-                    />
-                </Paper>
-            </Grid>
-            <Grid item md={6} xs={12}>
-                <Paper className={classes.paper}>
-                    <StateWiseReport
-                        data={deaths}
-                        total={totalDeaths}
-                        name="Deaths"
-                        color="#ED7B84"
-                        loading={loading}
-                        lastUpdated={lastUpdated}
-                    />
-                </Paper>
-            </Grid>
-        </Grid>
+        </>
     );
 }
