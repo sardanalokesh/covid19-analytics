@@ -3,6 +3,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { isMobile } from "react-device-detect";
 
 // charts theme
 am4core.useTheme(am4themes_dark);
@@ -17,17 +18,19 @@ export interface DonutData {
 interface DonutProps {
     name: string;
     data: DonutData[];
+    total: number;
 }
 
-export function Donut({ name, data }: DonutProps) {
+export function Donut({ name, data, total }: DonutProps) {
 
     const chartDiv = name + "-chart";
     const chartRef = useRef<am4charts.PieChart | null>(null);
-    const numberformatter = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 });
+    const numberformatter = new Intl.NumberFormat('en-IN');
 
     useEffect(() => {
         // Create chart instance
         let chart = am4core.create(chartDiv, am4charts.PieChart);
+        chart.responsive.enabled = true;
 
         // Add data
         chart.data = data;
@@ -37,9 +40,10 @@ export function Donut({ name, data }: DonutProps) {
         pieSeries.dataFields.value = "count";
         pieSeries.dataFields.category = "name";
         pieSeries.innerRadius = am4core.percent(50);
-        pieSeries.ticks.template.disabled = true;
-        // pieSeries.labels.template.radius = am4core.percent(-10);
+        // pieSeries.ticks.template.disabled = true;
+        if (isMobile) pieSeries.labels.template.radius = am4core.percent(-12);
         pieSeries.alignLabels = false;
+        // pieSeries.labels.template.bent = true;
         // pieSeries.labels.template.disabled = true;
 
         pieSeries.slices.template.propertyFields.fill = "color";
@@ -58,7 +62,7 @@ export function Donut({ name, data }: DonutProps) {
         label.horizontalCenter = "middle";
         label.verticalCenter = "middle";
         label.adapter.add("text", function(text, target){
-            return "[font-size:14px]Confirmed Cases[/]\n[bold font-size:25px]" + numberformatter.format(pieSeries.dataItem.values.value.sum) + "[/]";
+            return "[font-size:14px]Confirmed Cases[/]\n[bold font-size:25px]" + numberformatter.format(total) + "[/]";
         })
 
 
@@ -68,7 +72,7 @@ export function Donut({ name, data }: DonutProps) {
             chart.dispose();
         }
 
-    }, [chartDiv, data, numberformatter]);
+    }, [chartDiv, data, numberformatter, total]);
 
     return (
         <>

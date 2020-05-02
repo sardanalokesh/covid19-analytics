@@ -110,6 +110,7 @@ export function Overall() {
                 <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <Summary
+                            confirmed={totalConfirmedCases}
                             active={totalActiveCases}
                             recovered={totalRecovered}
                             deaths={totalDeaths}

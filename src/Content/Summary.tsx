@@ -23,34 +23,38 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SummaryProps {
+    confirmed: number;
     active: number;
     recovered: number;
     deaths: number;
     loading: boolean;
 }
 
-export function Summary({ active, recovered, deaths, loading}: SummaryProps) {
+export function Summary({ confirmed, active, recovered, deaths, loading}: SummaryProps) {
     const classes = useStyles();
     return (
         <>
             <Typography variant="h6" className={classes.headerText}>
                 Overview
             </Typography>
-            <Donut name="overall-summary" data={[
-                {
-                    name: "Active Cases",
-                    count: active,
-                    color: "#67B7DC"
-                }, {
-                    name: "Recovered",
-                    count: recovered,
-                    color: "#008856"
-                }, {
-                    name: "Deaths",
-                    count: deaths,
-                    color: "#ED7B84"
-                }
-            ]} />
+            <Donut name="overall-summary"
+                total={confirmed}
+                data={[
+                    {
+                        name: "Active Cases",
+                        count: active,
+                        color: "#67B7DC"
+                    }, {
+                        name: "Recovered",
+                        count: recovered,
+                        color: "#008856"
+                    }, {
+                        name: "Deaths",
+                        count: deaths,
+                        color: "#ED7B84"
+                    }
+                ]} 
+            />
             <Loader loading={loading} />
         </>
     );
