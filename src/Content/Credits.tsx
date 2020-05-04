@@ -33,7 +33,10 @@ export function Credits() {
                 <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <Typography variant="h6" className={classes.text}>
-                            Data Source: <Link className={classes.link} href="https://api.covid19india.org/" target="_blank">COVID19INDIA.ORG</Link>
+                            <span>Data Sources: </span>
+                            <Link className={classes.link} href="https://api.covid19india.org/" target="_blank">COVID19INDIA.ORG</Link>
+                            <span> | </span>
+                            <Link className={classes.link} href="https://corona.lmao.ninja/" target="_blank">Novel Covid API</Link>
                         </Typography>
                         <Typography variant="h6" className={classes.text}>
                             Crafted by <Link className={classes.link} href="https://twitter.com/sardanalokesh" target="_blank">@sardanalokesh</Link>

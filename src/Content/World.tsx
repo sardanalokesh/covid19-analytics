@@ -1,10 +1,11 @@
+import { FeatureCollection } from "@amcharts/amcharts4-geodata/.internal/Geodata";
+import worldGeoData from "@amcharts/amcharts4-geodata/worldLow";
 import { createStyles, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
+import moment from 'moment';
 import React, { useEffect, useState } from "react";
-import { getStateWiseData } from "../Api/API_1";
+import { getCountryWiseData } from "../Api/API_3";
 import { ChloropethData } from "../Common/Cholopeth";
 import { MapReport } from "./MapReport";
-import { Summary } from "./Summary";
-import geoData from "@amcharts/amcharts4-geodata/india2019Low";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,13 +23,28 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.down('md')]: {
                 fontSize: 10
             }
+        },
+        header: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: '5px 0 40px 0'
+        },
+        headerText: {
+            fontFamily: 'Poppins',
+            fontSize: 25,
+            lineHeight: '17px',
+            textAlign: 'left',
+            [theme.breakpoints.down('md')]: {
+                fontSize: 20
+            }
         }
     })
 );
 
-export function Overall() {
+export function World() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
+    const [geoData] = useState<FeatureCollection>(worldGeoData);
     const [lastUpdated, setLastUpdated] = useState<string>("");
     const [confirmedCases, setConfirmedCases] = useState<ChloropethData[]>([]);
     const [totalConfirmedCases, setTotalConfirmedCases] = useState<number>(0);
@@ -46,33 +62,37 @@ export function Overall() {
     useEffect(() => {
         let mounted = true;
         setLoading(true);
-        getStateWiseData().then(data => {
+        getCountryWiseData().then(countries => {
             if (mounted) {
                 setLoading(false);
-                const { statewise } = data;
-                setLastUpdated(statewise[0].lastupdatedtime);
+                setLastUpdated(moment(countries[0].updated).format("DD/MM/YYYY HH:mm:ss"));
                 const _confirmedCases: any[] = [], _activeCases: any[] = [], _deaths: any[] = [], _recovered: any[] = [], _recoveryRate: any[] = [], _deathRate: any[] = [];
                 let _totalConfirmedCases = 0, _totalActiveCases = 0, _totalDeaths = 0, _totalRecovered = 0, _totalRecoveryRate = 0, _totalDeathRate = 0;
-                statewise.forEach(({ statecode, confirmed, active, deaths, recovered}) => {
-                    if (statecode === "LA") statecode = "LK"; // paatching Ladakh
-                    if(statecode === "TT") {
-                        _totalConfirmedCases = parseInt(confirmed);
-                        _totalActiveCases = parseInt(active);
-                        _totalDeaths = parseInt(deaths);
-                        _totalRecovered = parseInt(recovered);
-                        _totalRecoveryRate = Math.round((_totalRecovered / _totalConfirmedCases) * 10000) / 100;
-                        _totalDeathRate = Math.round((_totalDeaths / _totalConfirmedCases) * 10000) / 100;
-                        return;
-                    }
-                    const __confirmed = parseInt(confirmed), __active = parseInt(active), __deaths = parseInt(deaths), __recovered = parseInt(recovered);
+
+                // set global data
+                _totalConfirmedCases = 0;
+                _totalDeaths = 0;
+                _totalRecovered = 0;
+                _totalActiveCases = 0;
+                _totalRecoveryRate = Math.round((_totalRecovered / _totalConfirmedCases) * 10000) / 100;
+                _totalDeathRate = Math.round((_totalDeaths / _totalConfirmedCases) * 10000) / 100;
+
+
+                // set country level data
+                countries.forEach(({ countryInfo, cases, deaths, recovered }) => {
+                    const __confirmed = cases, __active = cases - deaths - recovered, __deaths = deaths, __recovered = recovered;
                     const __recoveryRate = __confirmed ? Math.round((__recovered / __confirmed) * 10000) / 100 : 0;
                     const __deathRate = __confirmed ? Math.round((__deaths / __confirmed) * 10000) / 100 : 0;
-                    _confirmedCases.push({id: `IN-${statecode}`, value: __confirmed});
-                    _activeCases.push({id: `IN-${statecode}`, value: __active});
-                    _deaths.push({id: `IN-${statecode}`, value: __deaths});
-                    _recovered.push({id: `IN-${statecode}`, value: __recovered});
-                    _recoveryRate.push({id: `IN-${statecode}`, value: __recoveryRate});
-                    _deathRate.push({id: `IN-${statecode}`, value: __deathRate});
+                    _confirmedCases.push({id: countryInfo.iso2, value: __confirmed});
+                    _activeCases.push({id: countryInfo.iso2, value: __active});
+                    _deaths.push({id: countryInfo.iso2, value: __deaths});
+                    _recovered.push({id: countryInfo.iso2, value: __recovered});
+                    _recoveryRate.push({id: countryInfo.iso2, value: __recoveryRate});
+                    _deathRate.push({id: countryInfo.iso2, value: __deathRate});
+                    _totalConfirmedCases += __confirmed;
+                    _totalDeaths += __deaths;
+                    _totalRecovered += __recovered;
+                    _totalActiveCases += __confirmed - __deaths - __recovered;
                 });
                 
                 setConfirmedCases(_confirmedCases);
@@ -99,25 +119,18 @@ export function Overall() {
 
         return () => {mounted = false};
     }, []);
-    
+
+    useEffect(() => {
+    }, []);
+
+
     return (
         <>
             <Typography variant="h6" className={classes.timestamp}>
                 Last Updated: {lastUpdated}
             </Typography>
             <Grid container spacing={3}>
-                <Grid item md={12} xs={12}>
-                    <Paper className={classes.paper}>
-                        <Summary
-                            confirmed={totalConfirmedCases}
-                            active={totalActiveCases}
-                            recovered={totalRecovered}
-                            deaths={totalDeaths}
-                            loading={loading}
-                        />
-                    </Paper>
-                </Grid>
-                <Grid item md={6} xs={12}>
+            <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={confirmedCases}
@@ -130,7 +143,7 @@ export function Overall() {
                         />
                     </Paper>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={activeCases}
@@ -143,7 +156,7 @@ export function Overall() {
                         />
                     </Paper>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={recovered}
@@ -156,7 +169,7 @@ export function Overall() {
                         />
                     </Paper>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={deaths}
@@ -169,7 +182,7 @@ export function Overall() {
                         />
                     </Paper>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={recoveryRate}
@@ -182,7 +195,7 @@ export function Overall() {
                         />
                     </Paper>
                 </Grid>
-                <Grid item md={6} xs={12}>
+                <Grid item md={12} xs={12}>
                     <Paper className={classes.paper}>
                         <MapReport
                             data={deathRate}

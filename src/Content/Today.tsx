@@ -1,10 +1,9 @@
 import { createStyles, Grid, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { StateWiseReport } from "./StateWiseCases";
+import React, { useEffect, useState } from "react";
+import { getStateWiseData } from "../Api/API_1";
 import { ChloropethData } from "../Common/Cholopeth";
-import { getData } from "../Api/API";
-import { NationalData } from "../Models/NationalData";
-import { ApiList } from "../Api/ApiList";
+import { MapReport } from "./MapReport";
+import geoData from "@amcharts/amcharts4-geodata/india2019Low";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,7 +39,7 @@ export function Today() {
     useEffect(() => {
         let mounted = true;
         setLoading(true);
-        getData<NationalData>(ApiList.NATIONAL_DATA).then(data => {
+        getStateWiseData().then(data => {
             if (mounted) {
                 setLoading(false);
                 const { statewise } = data;
@@ -85,37 +84,40 @@ export function Today() {
             <Grid container spacing={3}>
                 <Grid item md={6} xs={12}>
                     <Paper className={classes.paper}>
-                        <StateWiseReport
+                        <MapReport
                             data={confirmedCases}
                             total={totalConfirmedCases}
                             name="Confirmed Cases"
                             color="#F38400"
                             loading={loading}
                             lastUpdated={lastUpdated}
+                            geoData={geoData}
                         />
                     </Paper>
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <Paper className={classes.paper}>
-                        <StateWiseReport
+                        <MapReport
                             data={recovered}
                             total={totalRecovered}
                             name="Recovered"
                             color="#008856"
                             loading={loading}
                             lastUpdated={lastUpdated}
+                            geoData={geoData}
                         />
                     </Paper>
                 </Grid>
                 <Grid item md={6} xs={12}>
                     <Paper className={classes.paper}>
-                        <StateWiseReport
+                        <MapReport
                             data={deaths}
                             total={totalDeaths}
                             name="Deaths"
                             color="#ED7B84"
                             loading={loading}
                             lastUpdated={lastUpdated}
+                            geoData={geoData}
                         />
                     </Paper>
                 </Grid>

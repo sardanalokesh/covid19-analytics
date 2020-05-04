@@ -3,6 +3,7 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import { Chloropeth, ChloropethData } from "../Common/Cholopeth";
 import { Loader } from "../Common/Loader";
+import { FeatureCollection } from "@amcharts/amcharts4-geodata/.internal/Geodata";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,9 +39,10 @@ interface StateWiseReportProps {
     color: string;
     loading: boolean;
     lastUpdated: string;
+    geoData: FeatureCollection;
 }
 
-export function StateWiseReport({ data, total, name, color, loading, lastUpdated}: StateWiseReportProps) {
+export function MapReport({ data, total, name, color, loading, lastUpdated, geoData}: StateWiseReportProps) {
 
     const classes = useStyles();
 
@@ -56,7 +58,7 @@ export function StateWiseReport({ data, total, name, color, loading, lastUpdated
                     { lastUpdated }
                 </Typography> */}
             </div>
-            <Chloropeth data={data} name={name} color={color} />
+            <Chloropeth data={data} name={name} color={color} geoData={geoData} />
             <Loader loading={loading} />
         </>
     );

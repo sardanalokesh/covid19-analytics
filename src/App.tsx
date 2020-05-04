@@ -8,7 +8,7 @@ import Header from './Header/Header';
 import LeftMenu from './LeftMenu/LeftMenu';
 import { Credits } from './Content/Credits';
 import { isMobile } from 'react-device-detect';
-/* import {isMobile} from 'react-device-detect'; */
+import { World } from './Content/World';
 
 function App() {
 
@@ -49,6 +49,9 @@ function App() {
               </Route>
               <Route path="/today">
                   <Content isLeftMenuOpen={leftMenuOpen} Component={Today} />
+              </Route>
+              <Route path="/world">
+                  <Content isLeftMenuOpen={leftMenuOpen} Component={World} />
               </Route>
               <Route path="/credits">
                   <Content isLeftMenuOpen={leftMenuOpen} Component={Credits} />

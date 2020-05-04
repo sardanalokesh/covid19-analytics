@@ -1,10 +1,10 @@
-import geodata from "@amcharts/amcharts4-geodata/india2019Low";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import React, { useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
+import { FeatureCollection } from "@amcharts/amcharts4-geodata/.internal/Geodata";
 
 // charts theme
 am4core.useTheme(am4themes_dark);
@@ -19,6 +19,7 @@ interface Props {
     name: string;
     color: string;
     data: ChloropethData[];
+    geoData: FeatureCollection;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export function Chloropeth({ name, color, data }: Props) {
+export function Chloropeth({ name, color, data, geoData }: Props) {
     const classes = useStyles();
     const chartDiv = `${name}-chloropeth-chart`;
 
@@ -41,11 +42,13 @@ export function Chloropeth({ name, color, data }: Props) {
         let chart = am4core.create(chartDiv, am4maps.MapChart);
 
         // Set map definition
-        chart.geodata = geodata;
+        chart.geodata = geoData;
 
         // Set projection
         // chart.projection = new am4maps.projections.AlbersUsa();
         chart.projection = new am4maps.projections.Mercator();
+        // Set projection
+        chart.projection = new am4maps.projections.Miller();
 
         // zoom control
         chart.zoomControl = new am4maps.ZoomControl();
@@ -56,14 +59,17 @@ export function Chloropeth({ name, color, data }: Props) {
 
         // Create map polygon series
         let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+        
+        // exclude entities
+        polygonSeries.exclude = ["AQ"];
 
         //Set min/max fill color for each area
         polygonSeries.heatRules.push({
             property: "fill",
             target: polygonSeries.mapPolygons.template,
-            // min: am4core.color("#F5DBCB"),
-            min: am4core.color(color).brighten(1),
-            max: am4core.color(color).brighten(-0.3),
+            minValue: 0,
+            min: am4core.color(color).brighten(3),
+            max: am4core.color(color).brighten(-0.5),
             dataField: "value"
         });
 
@@ -83,7 +89,7 @@ export function Chloropeth({ name, color, data }: Props) {
         return () => {
             chart.dispose();
         }
-    }, [chartDiv, data, color]);
+    }, [chartDiv, data, color, geoData]);
 
     return (
         <div id={chartDiv} className={classes.chartDiv}></div>
