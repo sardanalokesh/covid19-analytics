@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface StateWiseReportProps {
     data: ChloropethData[],
-    total: number;
+    total?: number;
     name: string;
     color: string;
     loading: boolean;
@@ -50,9 +50,16 @@ export function MapReport({ data, total, name, color, loading, lastUpdated, geoD
         <>
             <div className={classes.header}>
                 <Typography variant="h6" className={classes.headerText}>
-                    {name} &gt; <span style={{color}}>
-                        <NumberFormat value={total} displayType="text" thousandSeparator={true} />
-                    </span>
+                    {name} {
+                        total !== undefined && (
+                            <span>
+                                <span>&gt; </span>
+                                <span style={{color}}>
+                                    <NumberFormat value={total} displayType="text" thousandSeparator={true} />
+                                </span>
+                            </span>
+                        )
+                    }
                 </Typography>
                 {/* <Typography variant="h6" className={classes.timestamp}>
                     { lastUpdated }
