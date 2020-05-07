@@ -1,2 +1,2 @@
-COVID-19 India - Analytics
-source code for https://covid19analytics.live/
+COVID-19 India - Analytics <br/>
+https://covid19analytics.live/
