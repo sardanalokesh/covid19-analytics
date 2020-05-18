@@ -64,6 +64,10 @@ const LeftMenu = ({ isOpen, onToggle, width, ...props }: LeftMenuProps) => {
                         value: "today"
                     },
                     {
+                        text: "States",
+                        value: "states"
+                    },
+                    {
                         text: "World",
                         value: "world"
                     },

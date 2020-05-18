@@ -36,11 +36,8 @@ function App() {
           color: '#ffffff',
           '&.Mui-focused': {
             color: '#ffffff'
-          },
-          "&$disabled": {
-            "color": "#ffffff"
           }
-        }
+        },
       },
       MuiSelect: {
         icon: {
