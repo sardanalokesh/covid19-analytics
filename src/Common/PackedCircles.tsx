@@ -57,7 +57,7 @@ export function PackedCircles({ name, data, indicative }: PackedCirclesProps) {
             chart.dispose();
         };
 
-    }, [chartDiv, data]);
+    }, [chartDiv, data, indicative]);
 
     return (
         <>

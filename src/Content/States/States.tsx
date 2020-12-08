@@ -59,9 +59,8 @@ const STATES_DATA: {[key: string]: {name: string, confirmed: PackedCirclesData[]
 
 function States() {
     const classes = useStyles();
-    const [lastUpdated, setLastUpdated] = useState("");
     const [loading, setLoading] = useState(false);
-    const [name, setName] = useState<string>("");
+    const [, setName] = useState<string>("");
     const [zones, setZones] = useState<PackedCirclesData[]>([]);
     const [confirmed, setConfirmed] = useState<PackedCirclesData[]>([]);
     const [active, setActive] = useState<PackedCirclesData[]>([]);
