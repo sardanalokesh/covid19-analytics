@@ -1,15 +1,16 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Content } from './Content/Content';
-import { Overall } from './Content/Overall';
-import { Today } from './Content/Today';
 import Header from './Header/Header';
 import LeftMenu from './LeftMenu/LeftMenu';
-import { Credits } from './Content/Credits';
 import { isMobile } from 'react-device-detect';
-import { World } from './Content/World';
-import { States } from './Content/States/States';
+
+const Overall = React.lazy(() => import('./Content/Overall'));
+const Today = React.lazy(() => import('./Content/Today'));
+const World = React.lazy(() => import('./Content/World'));
+const States = React.lazy(() => import('./Content/States/States'));
+const Credits = React.lazy(() => import('./Content/Credits'));
 
 function App() {
 
@@ -83,6 +84,7 @@ function App() {
         <Header onMenuClick={menuClickHandler} />
         <BrowserRouter>
             <LeftMenu isOpen={leftMenuOpen} onToggle={setLeftMenuOpen}/>
+            <Suspense fallback="Loading...">
             <Switch>
               <Route path="/summary">
                   <Content isLeftMenuOpen={leftMenuOpen} Component={Overall} />
@@ -103,6 +105,7 @@ function App() {
                   <Redirect to="/summary" />
               </Route>
             </Switch>
+            </Suspense>
         </BrowserRouter>
       </div>
     </ThemeProvider>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export function Credits() {
+function Credits() {
     const classes = useStyles();
     return (
         <>
@@ -47,3 +47,5 @@ export function Credits() {
         </>
     );
 }
+
+export default Credits;

@@ -57,7 +57,7 @@ const ZONE_COLORS: {[key: string]: string} = {
 
 const STATES_DATA: {[key: string]: {name: string, confirmed: PackedCirclesData[], active: PackedCirclesData[], recovered: PackedCirclesData[], deceased: PackedCirclesData[], zones: PackedCirclesData[]}} = {};
 
-export function States() {
+function States() {
     const classes = useStyles();
     const [lastUpdated, setLastUpdated] = useState("");
     const [loading, setLoading] = useState(false);
@@ -222,3 +222,5 @@ export function States() {
         </>
     );
 }
+
+export default States;

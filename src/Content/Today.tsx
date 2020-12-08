@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export function Today() {
+function Today() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [lastUpdated, setLastUpdated] = useState<string>("");
@@ -125,3 +125,5 @@ export function Today() {
         </>
     );
 }
+
+export default Today;

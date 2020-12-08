@@ -41,9 +41,13 @@ export function Donut({ name, data, total }: DonutProps) {
         pieSeries.dataFields.category = "name";
         pieSeries.innerRadius = am4core.percent(50);
         // pieSeries.ticks.template.disabled = true;
-        if (isMobile) pieSeries.labels.template.radius = am4core.percent(-12);
-        pieSeries.alignLabels = false;
-        // pieSeries.labels.template.bent = true;
+        if (isMobile)  {
+            pieSeries.labels.template.radius = am4core.percent(-75);
+        } else {
+            pieSeries.labels.template.radius = am4core.percent(-25);
+        }
+        pieSeries.alignLabels = true;
+        pieSeries.labels.template.bent = false;
         // pieSeries.labels.template.disabled = true;
 
         pieSeries.slices.template.propertyFields.fill = "color";

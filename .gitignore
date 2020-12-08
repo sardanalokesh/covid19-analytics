@@ -33,3 +33,4 @@ yarn-error.log*
 .c9/
 *.launch
 .settings/
+.history

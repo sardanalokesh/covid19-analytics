@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export function Overall() {
+function Overall() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [lastUpdated, setLastUpdated] = useState<string>("");
@@ -199,3 +199,5 @@ export function Overall() {
         </>
     );
 }
+
+export default Overall;

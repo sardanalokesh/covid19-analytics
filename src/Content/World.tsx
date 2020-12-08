@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export function World() {
+function World() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [geoData] = useState<FeatureCollection>(worldGeoData);
@@ -267,3 +267,5 @@ export function World() {
         </>
     );
 }
+
+export default World;
